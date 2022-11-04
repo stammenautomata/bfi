@@ -23,6 +23,10 @@ data class CreateMerchantDescriptionRequest (
         val merchantId: Long,
 )
 
+data class CreateTransactionStubRequest(
+        val amount: BigDecimal,
+        val note: String?,
+)
 data class CreateTransactionRequest(
         val transactionDate: Date,
         val postedDate: Date?,

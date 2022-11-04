@@ -17,7 +17,6 @@ class MerchantDescriptionEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     var id: Long? = null
-        private set
 
     @Column(name = "description", nullable = false)
     var description: String? = null

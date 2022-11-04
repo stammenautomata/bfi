@@ -15,12 +15,9 @@ class AccountEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     var id: Long? = null
-        private set
-
 
     @Column(name = "name", nullable = false, unique = true)
     var name: String? = null
-
 
     @Lob
     @Column(name = "note")

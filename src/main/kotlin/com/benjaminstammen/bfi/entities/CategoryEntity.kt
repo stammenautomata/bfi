@@ -10,19 +10,18 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "categories")
-open class CategoryEntity {
+class CategoryEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    open var id: Long? = null
-        protected set
+    var id: Long? = null
 
 
     @Column(name = "name", nullable = false, unique = true)
-    open var name: String? = null
+    var name: String? = null
 
 
     @Lob
     @Column(name = "note")
-    open var note: String? = null
+    var note: String? = null
 }

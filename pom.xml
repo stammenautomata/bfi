@@ -53,6 +53,13 @@
             <version>1.6.12</version>
         </dependency>
 
+        <!-- AWS -->
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-s3</artifactId>
+            <version>1.12.334</version>
+        </dependency>
+
         <!-- CSV parsing -->
         <dependency>
             <groupId>com.opencsv</groupId>
@@ -98,7 +105,13 @@
                     </args>
                     <compilerPlugins>
                         <plugin>spring</plugin>
+                        <plugin>all-open</plugin>
                     </compilerPlugins>
+                    <pluginOptions>
+                        <option>all-open:annotation=javax.persistence.Entity</option>
+                        <option>all-open:annotation=javax.persistence.MappedSuperclass</option>
+                        <option>all-open:annotation=javax.persistence.Embeddable</option>
+                    </pluginOptions>
                 </configuration>
                 <dependencies>
                     <dependency>

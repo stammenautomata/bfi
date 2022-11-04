@@ -14,3 +14,7 @@ spring:
 server:
   error:
     include-message: always
+bfi:
+  s3:
+    bucket: "bfi-resources"
+    receipt-prefix: "receipts"
