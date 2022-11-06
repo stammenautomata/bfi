@@ -27,7 +27,7 @@ class TransactionStubEntity {
     @Column(name = "added_date", nullable = false)
     var addedDate: Date? = null
 
-    @Column(name = "amount", nullable = true, precision = 2, scale = 2)
+    @Column(name = "amount", nullable = true, precision = 10, scale = 2)
     var amount: BigDecimal? = null
 
     @Lob
