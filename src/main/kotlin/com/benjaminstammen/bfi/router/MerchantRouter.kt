@@ -1,9 +1,8 @@
 package com.benjaminstammen.bfi.router
 
-import com.benjaminstammen.bfi.model.*
+import com.benjaminstammen.bfi.entities.Merchant
+import com.benjaminstammen.bfi.model.CreateMerchantRequest
 import com.benjaminstammen.bfi.repositories.MerchantRepository
-import com.benjaminstammen.bfi.translation.fromEntity
-import com.benjaminstammen.bfi.translation.toEntity
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
@@ -17,12 +16,17 @@ class MerchantRouter(val merchantRepository: MerchantRepository) {
 
     @PostMapping
     fun createMerchant(@RequestBody request: CreateMerchantRequest): ResponseEntity<Merchant> {
-        val persistedEntity = merchantRepository.save(toEntity(request))
-        return ResponseEntity.ok(fromEntity(persistedEntity))
+        val persistedEntity = merchantRepository.save(
+            Merchant(
+                name = request.name,
+                note = request.note,
+            )
+        )
+        return ResponseEntity.ok(persistedEntity)
     }
 
     @GetMapping
     fun listMerchants() : ResponseEntity<List<Merchant>> {
-        return ResponseEntity.ok(merchantRepository.findAll().map { fromEntity(it) })
+        return ResponseEntity.ok(merchantRepository.findAll())
     }
 }

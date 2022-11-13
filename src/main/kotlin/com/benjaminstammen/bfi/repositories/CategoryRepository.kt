@@ -1,8 +1,6 @@
 package com.benjaminstammen.bfi.repositories
 
-import com.benjaminstammen.bfi.entities.CategoryEntity
-import org.springframework.data.repository.CrudRepository
-import org.springframework.stereotype.Repository
+import com.benjaminstammen.bfi.entities.Category
+import org.springframework.data.mongodb.repository.MongoRepository
 
-@Repository
-interface CategoryRepository : CrudRepository<CategoryEntity, Long>
+interface CategoryRepository: MongoRepository<Category, String>

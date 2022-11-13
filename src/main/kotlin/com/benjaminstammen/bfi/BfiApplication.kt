@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.OpenAPIDefinition
 import io.swagger.v3.oas.annotations.info.Info
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories
 
 @SpringBootApplication
 @OpenAPIDefinition(
@@ -11,9 +12,8 @@ import org.springframework.boot.runApplication
         title = "BFI Swagger Title",
         version = "0.1",
         description = "BFI description"))
-class BfiApplication {
-
-}
+@EnableMongoRepositories
+class BfiApplication
 
 fun main(args: Array<String>) {
     runApplication<BfiApplication>(*args)

@@ -1,6 +1,6 @@
 package com.benjaminstammen.bfi.repositories
 
-import com.benjaminstammen.bfi.entities.Merchant
+import com.benjaminstammen.bfi.entities.Invoice
 import org.springframework.data.mongodb.repository.MongoRepository
 
-interface MerchantRepository: MongoRepository<Merchant, String>
+interface InvoiceRepository: MongoRepository<Invoice, String>

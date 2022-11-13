@@ -31,7 +31,7 @@ data class CreateTransactionRequest(
         val transactionDate: Date,
         val postedDate: Date?,
         val amount: BigDecimal,
-        val categoryId: Long,
-        val merchantId: Long,
+        val categoryId: String,
+        val merchantId: String,
         val merchantDescription: String?,
 )
