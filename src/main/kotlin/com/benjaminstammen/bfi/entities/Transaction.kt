@@ -1,9 +1,9 @@
 package com.benjaminstammen.bfi.entities
 
+import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 import java.math.BigDecimal
 import java.sql.Date
-import javax.persistence.Id
 
 @Document("transaction")
 class Transaction(

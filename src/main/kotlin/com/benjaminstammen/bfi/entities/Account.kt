@@ -1,7 +1,7 @@
 package com.benjaminstammen.bfi.entities
 
+import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
-import javax.persistence.Id
 
 @Document("account")
 class Account(
