@@ -6,7 +6,7 @@ import java.math.BigDecimal
 import java.sql.Date
 
 @Document("transaction")
-class Transaction(
+data class Transaction(
     @Id val id: String? = null,
     val transactionDate: Date,
     val postedDate: Date?,

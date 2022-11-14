@@ -3,8 +3,9 @@ package com.benjaminstammen.bfi.model
 import java.math.BigDecimal
 import java.sql.Date
 
-data class CreateAccountRequest(
+data class AccountMutableProperties(
         val name: String,
+        val autoTags: List<String> = ArrayList(),
         val note: String?,
 )
 
