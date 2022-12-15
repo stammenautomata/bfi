@@ -1,6 +1,6 @@
-package com.benjaminstammen.bfi.router
+package com.benjaminstammen.bfi.controllers
 
-import com.benjaminstammen.bfi.entities.Account
+import com.benjaminstammen.bfi.entities.AccountEntity
 import com.benjaminstammen.bfi.model.AccountMutableProperties
 import com.benjaminstammen.bfi.repositories.AccountRepository
 import org.springframework.http.HttpStatus
@@ -15,11 +15,11 @@ import org.springframework.web.server.ResponseStatusException
 
 @RestController
 @RequestMapping("/account")
-class AccountRouter(val accountRepository: AccountRepository) {
+class AccountController(val accountRepository: AccountRepository) {
     @PostMapping
-    fun createAccount(@RequestBody accountMutableProperties: AccountMutableProperties): ResponseEntity<Account> {
+    fun createAccount(@RequestBody accountMutableProperties: AccountMutableProperties): ResponseEntity<AccountEntity> {
         val accountEntity = accountRepository.save(
-            Account(
+            AccountEntity(
                 name = accountMutableProperties.name,
                 autoTags = accountMutableProperties.autoTags,
                 note = accountMutableProperties.note,
@@ -29,7 +29,7 @@ class AccountRouter(val accountRepository: AccountRepository) {
     }
 
     @GetMapping(produces = ["application/json"])
-    fun listAccounts(): ResponseEntity<List<Account>> {
+    fun listAccounts(): ResponseEntity<List<AccountEntity>> {
         val accounts = accountRepository.findAll()
         return ResponseEntity.ok(accounts)
     }
@@ -38,7 +38,7 @@ class AccountRouter(val accountRepository: AccountRepository) {
     fun updateAccount(
         @PathVariable("accountId") accountId: String,
         @RequestBody accountProperties: AccountMutableProperties
-    ): ResponseEntity<Account> {
+    ): ResponseEntity<AccountEntity> {
 
         val maybePersistedAccount = accountRepository.findById(accountId)
         if (!maybePersistedAccount.isPresent) {

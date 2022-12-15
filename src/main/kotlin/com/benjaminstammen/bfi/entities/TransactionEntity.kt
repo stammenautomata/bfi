@@ -6,7 +6,7 @@ import java.math.BigDecimal
 import java.sql.Date
 
 @Document("transaction")
-data class Transaction(
+data class TransactionEntity(
     @Id val id: String? = null,
     val transactionDate: Date,
     val postedDate: Date?,
@@ -16,7 +16,6 @@ data class Transaction(
     val bankDescription: String?,
     val bankCategory: String?,
     val invoiceIds: List<String> = ArrayList(),
-    val splits: List<String> = ArrayList(),
     val note: String?,
     val tags: List<String> = ArrayList()
 )

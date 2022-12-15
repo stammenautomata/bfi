@@ -1,13 +1,11 @@
 package com.benjaminstammen.bfi
 
-import com.benjaminstammen.bfi.entities.Account
+import com.benjaminstammen.bfi.entities.AccountEntity
 import com.benjaminstammen.bfi.model.AccountMutableProperties
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.MethodOrderer.OrderAnnotation
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestMethodOrder
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
@@ -18,18 +16,16 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import java.util.*
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @ContextConfiguration(initializers = [MongoInitializer::class])
-@TestMethodOrder(OrderAnnotation::class)
-class BfiApplicationTests(@Autowired val mockMvc: MockMvc) {
+class AccountIntegrationTests(@Autowired val mockMvc: MockMvc) {
 
     val mapper: ObjectMapper = ObjectMapper()
         .registerModule(KotlinModule.Builder().build())
 
-    lateinit var persistedObject: Account
+    lateinit var persistedObject: AccountEntity
 
     @BeforeEach
     fun setup() {
@@ -46,7 +42,7 @@ class BfiApplicationTests(@Autowired val mockMvc: MockMvc) {
             .andReturn()
             .response
             .contentAsString
-        persistedObject = mapper.readValue(response, Account::class.java)
+        persistedObject = mapper.readValue(response, AccountEntity::class.java)
     }
 
     @Test

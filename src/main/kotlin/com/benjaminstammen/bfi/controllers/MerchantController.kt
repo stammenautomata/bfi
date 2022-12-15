@@ -1,6 +1,6 @@
-package com.benjaminstammen.bfi.router
+package com.benjaminstammen.bfi.controllers
 
-import com.benjaminstammen.bfi.entities.Merchant
+import com.benjaminstammen.bfi.entities.MerchantEntity
 import com.benjaminstammen.bfi.model.CreateMerchantRequest
 import com.benjaminstammen.bfi.repositories.MerchantRepository
 import org.springframework.http.ResponseEntity
@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/merchant")
-class MerchantRouter(val merchantRepository: MerchantRepository) {
+class MerchantController(val merchantRepository: MerchantRepository) {
 
     @PostMapping
-    fun createMerchant(@RequestBody request: CreateMerchantRequest): ResponseEntity<Merchant> {
+    fun createMerchant(@RequestBody request: CreateMerchantRequest): ResponseEntity<MerchantEntity> {
         val persistedEntity = merchantRepository.save(
-            Merchant(
+            MerchantEntity(
                 name = request.name,
                 note = request.note,
             )
@@ -26,7 +26,7 @@ class MerchantRouter(val merchantRepository: MerchantRepository) {
     }
 
     @GetMapping
-    fun listMerchants() : ResponseEntity<List<Merchant>> {
+    fun listMerchants() : ResponseEntity<List<MerchantEntity>> {
         return ResponseEntity.ok(merchantRepository.findAll())
     }
 }

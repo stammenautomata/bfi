@@ -3,9 +3,8 @@ package com.benjaminstammen.bfi.entities
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 
-@Document("invoice")
-data class Invoice(
+@Document("category")
+data class CategoryEntity(
     @Id val id: String? = null,
-    val resourceUri: String,
-    val md5: String
+    val name: String
 )

@@ -28,7 +28,7 @@ data class CreateTransactionStubRequest(
         val amount: BigDecimal,
         val note: String?,
 )
-data class CreateTransactionRequest(
+data class TransactionMutableProperties(
         val transactionDate: Date,
         val postedDate: Date?,
         val amount: BigDecimal,
