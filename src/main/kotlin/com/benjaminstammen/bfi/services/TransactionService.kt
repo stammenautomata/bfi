@@ -54,7 +54,6 @@ class TransactionService(
     fun getAllTransactions(): List<Transaction> {
         return transactionRepository.findAll().map { x ->
             val items = itemRepository.findAllByTransactionId(x.id!!)
-                .stream()
                 .map { y: ItemEntity ->
                     Item(
                         id = y.id!!,
@@ -64,17 +63,15 @@ class TransactionService(
                         quantity = y.quantity,
                         tags = y.tags
                     )
-                }.collect(Collectors.toList())
+                }
             val invoices = invoiceRepository.findAllById(x.invoiceIds)
-                .toList()
-                .stream()
                 .map { y ->
                     Invoice(
                         id = y.id!!,
                         resourceUri = y.resourceUri,
                         md5 = y.md5
                     )
-                }.collect(Collectors.toList())
+                }
             transactionFromEntity(
                 entity = x,
                 invoices = invoices,

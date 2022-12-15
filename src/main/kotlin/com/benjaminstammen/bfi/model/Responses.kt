@@ -3,6 +3,13 @@ package com.benjaminstammen.bfi.model
 import java.math.BigDecimal
 import java.sql.Date
 
+data class Account(
+    val id: String,
+    val name: String,
+    val autoTags: List<String>,
+    val note: String?
+)
+
 data class Transaction(
     val id: String,
     val transactionDate: Date,
