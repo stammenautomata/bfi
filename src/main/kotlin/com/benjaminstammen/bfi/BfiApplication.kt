@@ -3,6 +3,7 @@ package com.benjaminstammen.bfi
 import io.swagger.v3.oas.annotations.OpenAPIDefinition
 import io.swagger.v3.oas.annotations.info.Info
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan
 import org.springframework.boot.runApplication
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories
 
@@ -12,6 +13,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
         title = "BFI Swagger Title",
         version = "0.1",
         description = "BFI description"))
+@ConfigurationPropertiesScan
 @EnableMongoRepositories
 class BfiApplication
 

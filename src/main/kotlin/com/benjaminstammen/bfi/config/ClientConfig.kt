@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-class BfiConfiguration {
+class ClientConfig {
 
     @Bean
     fun amazonS3ClientBean(): AmazonS3 {

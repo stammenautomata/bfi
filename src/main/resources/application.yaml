@@ -1,11 +1,15 @@
+application:
+  client-origin-url: ${CLIENT_ORIGIN_URL}
+
 spring:
   data:
     mongodb:
       database: "bfi"
+      uri: ${AUTHENTICATED_MONGO_URI}
 server:
   error:
     include-message: always
 bfi:
   s3:
-    bucket: "bfi-resources"
+    bucket: "bfinance-resources"
     receipt-prefix: "receipts"
