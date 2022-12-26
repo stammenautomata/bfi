@@ -1,7 +1,7 @@
 package com.benjaminstammen.bfi.controllers
 
 import com.benjaminstammen.bfi.entities.MerchantEntity
-import com.benjaminstammen.bfi.model.CreateMerchantRequest
+import com.benjaminstammen.bfi.model.MerchantMutableProperties
 import com.benjaminstammen.bfi.repositories.MerchantRepository
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController
 class MerchantController(val merchantRepository: MerchantRepository) {
 
     @PostMapping
-    fun createMerchant(@RequestBody request: CreateMerchantRequest): ResponseEntity<MerchantEntity> {
+    fun createMerchant(@RequestBody request: MerchantMutableProperties): ResponseEntity<MerchantEntity> {
         val persistedEntity = merchantRepository.save(
             MerchantEntity(
                 name = request.name,

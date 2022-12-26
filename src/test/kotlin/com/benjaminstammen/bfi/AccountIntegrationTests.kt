@@ -18,12 +18,18 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.springframework.test.web.servlet.setup.MockMvcBuilders
+import org.springframework.web.context.WebApplicationContext
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @ContextConfiguration(initializers = [MongoInitializer::class])
-class AccountIntegrationTests(@Autowired val mockMvc: MockMvc) {
-
+class AccountIntegrationTests(
+    @Autowired val webApplicationContext: WebApplicationContext
+) {
+    val mockMvc: MockMvc = MockMvcBuilders
+        .webAppContextSetup(webApplicationContext)
+        .build()
     val mapper: ObjectMapper = ObjectMapper()
         .registerModule(KotlinModule.Builder().build())
 

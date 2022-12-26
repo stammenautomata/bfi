@@ -2,19 +2,26 @@ package com.benjaminstammen.bfi.controllers
 
 import com.benjaminstammen.bfi.model.Transaction
 import com.benjaminstammen.bfi.model.TransactionMutableProperties
+import com.benjaminstammen.bfi.model.TransactionPartial
 import com.benjaminstammen.bfi.services.TransactionService
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
+import org.springframework.web.multipart.MultipartFile
 
 @RestController
 @RequestMapping("/transaction")
 class TransactionController(
     val transactionService: TransactionService
 ) {
+
+    // TODO: This is not correct - TransactionPartial should evolve into a more fully-defined object before
+    //   being returned to user.
+    @PostMapping("/import")
+    fun createTransactionsFromCsv(@RequestParam("csv") csvMultipartFile: MultipartFile):
+            ResponseEntity<List<TransactionPartial>> {
+
+        return ResponseEntity.ok(emptyList())
+    }
 
     @PostMapping
     fun createTransaction(@RequestBody request: TransactionMutableProperties): ResponseEntity<Transaction> {

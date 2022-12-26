@@ -1,15 +1,16 @@
 package com.benjaminstammen.bfi.services;
 
 import com.benjaminstammen.bfi.entities.AccountEntity
-import com.benjaminstammen.bfi.fromEntity
 import com.benjaminstammen.bfi.model.Account
 import com.benjaminstammen.bfi.model.AccountMutableProperties
+import com.benjaminstammen.bfi.model.fromEntity
+import com.benjaminstammen.bfi.model.toEntity
 import com.benjaminstammen.bfi.repositories.AccountRepository
-import com.benjaminstammen.bfi.toEntity
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.server.ResponseStatusException
+import javax.security.auth.login.AccountNotFoundException
 
 @Service
 class AccountService(val accountRepository: AccountRepository) {
@@ -42,10 +43,7 @@ class AccountService(val accountRepository: AccountRepository) {
 
     fun getAccountEntityOr404(accountId: String): AccountEntity {
         return accountRepository.findByIdOrNull(accountId)
-            ?: throw ResponseStatusException(
-                HttpStatus.NOT_FOUND,
-                "Account with id `$accountId` does not exist."
-            )
+            ?: throw AccountNotFoundException(accountId)
     }
 
     fun enforceConstraints(accountMutableProperties: AccountMutableProperties) {
