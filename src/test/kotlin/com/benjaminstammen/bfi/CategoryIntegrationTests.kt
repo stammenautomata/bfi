@@ -1,7 +1,7 @@
 package com.benjaminstammen.bfi
 
-import com.benjaminstammen.bfi.entities.AccountEntity
-import com.benjaminstammen.bfi.model.AccountMutableProperties
+import com.benjaminstammen.bfi.entities.CategoryEntity
+import com.benjaminstammen.bfi.model.CategoryMutableProperties
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import org.hamcrest.Matchers
@@ -25,7 +25,7 @@ import org.springframework.web.context.WebApplicationContext
 @SpringBootTest
 @AutoConfigureMockMvc
 @ContextConfiguration(initializers = [MongoInitializer::class])
-class AccountIntegrationTests(
+class CategoryIntegrationTests(
     @Autowired val webApplicationContext: WebApplicationContext
 ) {
     val mockMvc: MockMvc = MockMvcBuilders
@@ -34,18 +34,17 @@ class AccountIntegrationTests(
     val mapper: ObjectMapper = ObjectMapper()
         .registerModule(KotlinModule.Builder().build())
 
-    lateinit var persistedObject: AccountEntity
+    lateinit var persistedObject: CategoryEntity
 
     @BeforeEach
     fun setup() {
-        val createAccountRequest = AccountMutableProperties(
+        val createCategoryRequest = CategoryMutableProperties(
             name = "testName",
-            autoTags = listOf("testTagOne", "testTagTwo"),
             note = "testNote"
         )
         val response = mockMvc.perform(
-            post("/accounts")
-                .content(mapper.writeValueAsString(createAccountRequest))
+            post("/categories")
+                .content(mapper.writeValueAsString(createCategoryRequest))
                 .contentType(MediaType.APPLICATION_JSON)
         )
             .andExpect(status().isOk)
@@ -53,13 +52,13 @@ class AccountIntegrationTests(
             .andReturn()
             .response
             .contentAsString
-        persistedObject = mapper.readValue(response, AccountEntity::class.java)
+        persistedObject = mapper.readValue(response, CategoryEntity::class.java)
     }
 
     @AfterEach
     fun cleanup() {
         mockMvc.perform(
-            delete("/accounts/${persistedObject.id}")
+            delete("/categories/${persistedObject.id}")
                 .contentType(MediaType.APPLICATION_JSON)
         )
             .andExpect(status().isOk)
@@ -67,9 +66,9 @@ class AccountIntegrationTests(
     }
 
     @Test
-    fun `test account LIST`() {
+    fun `test category LIST`() {
         mockMvc.perform(
-            get("/accounts")
+            get("/categories")
                 .contentType(MediaType.APPLICATION_JSON)
         )
             .andExpect(status().isOk)
@@ -78,17 +77,17 @@ class AccountIntegrationTests(
     }
 
     @Test
-    fun `test account UPDATE`() {
-        val updateRequestBody = AccountMutableProperties("newName", listOf("newTagOne", "newTagTwo"), "newNote")
-        val updatedAccount = persistedObject.mergeWithProperties(updateRequestBody)
+    fun `test category UPDATE`() {
+        val updateRequestBody = CategoryMutableProperties("newName", "newNote")
+        val updatedCategory = persistedObject.mergeWithProperties(updateRequestBody)
 
         mockMvc.perform(
-            post("/accounts/${persistedObject.id}")
+            post("/categories/${persistedObject.id}")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(updateRequestBody))
         )
             .andExpect(status().isOk)
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(content().json(mapper.writeValueAsString(updatedAccount)))
+            .andExpect(content().json(mapper.writeValueAsString(updatedCategory)))
     }
 }

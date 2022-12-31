@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/account")
+@RequestMapping("/accounts")
 class AccountController(val accountService: AccountService) {
     @PostMapping
     fun createAccount(@RequestBody accountMutableProperties: AccountMutableProperties): ResponseEntity<Account> {
@@ -36,7 +36,8 @@ class AccountController(val accountService: AccountService) {
 
     @DeleteMapping("/{accountId}")
     fun deleteAccount(
-        @PathVariable("accountId") accountId: String): ResponseEntity<Void> {
+        @PathVariable("accountId") accountId: String
+    ): ResponseEntity<Void> {
         accountService.deleteAccount(accountId)
         return ResponseEntity.ok().build()
     }

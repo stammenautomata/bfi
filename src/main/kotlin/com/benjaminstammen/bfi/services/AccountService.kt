@@ -10,7 +10,6 @@ import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.server.ResponseStatusException
-import javax.security.auth.login.AccountNotFoundException
 
 @Service
 class AccountService(val accountRepository: AccountRepository) {
