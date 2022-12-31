@@ -6,5 +6,5 @@ import org.springframework.data.mongodb.repository.MongoRepository
 
 interface MerchantRepository: MongoRepository<MerchantEntity, String> {
     fun findFirstByName(name: String): MerchantEntity?
-
+    fun findByKnownDescriptionsContaining(description: String): List<MerchantEntity>
 }

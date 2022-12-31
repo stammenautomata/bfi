@@ -9,11 +9,19 @@ import org.springframework.security.web.SecurityFilterChain
 @Configuration
 @EnableMethodSecurity(prePostEnabled = true)
 class SecurityConfig {
+
+    // Going to use a FE server, so should be OK to disable CSRF.
+    // Really only using it for Swagger, though.
+    // Possible workaround: https://github.com/springfox/springfox/issues/1450
+    // Or maybe I'll just use gRPC or something in the future.
     @Bean
     fun httpSecurity(http: HttpSecurity): SecurityFilterChain {
-        return http.authorizeRequests()
-            .anyRequest()
-                .permitAll()
+        return http
+            .csrf()
+                .disable()
+            .authorizeRequests()
+                .anyRequest()
+                    .permitAll()
             .and()
                 .cors()
             .and()

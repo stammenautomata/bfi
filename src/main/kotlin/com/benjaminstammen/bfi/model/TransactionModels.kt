@@ -1,14 +1,14 @@
 package com.benjaminstammen.bfi.model
 
 import com.benjaminstammen.bfi.entities.TransactionEntity
+import com.benjaminstammen.bfi.util.ParsedBankDescription
 import java.math.BigDecimal
-import java.sql.Date
 import java.time.LocalDate
 
 data class Transaction(
     val id: String,
-    val transactionDate: Date,
-    val postedDate: Date?,
+    val transactionDate: LocalDate,
+    val postedDate: LocalDate?,
     val amount: BigDecimal,
     val categoryId: String,
     val merchantId: String,
@@ -29,23 +29,33 @@ data class Item(
     val tags: List<String>
 )
 
-data class TransactionPartial(
+data class TransactionImportPartial(
     val transactionDate: LocalDate,
     val postedDate: LocalDate?,
     val bankCategory: String?,
     val bankDescription: String?,
     val bankMemo: String?,
-    val amount: BigDecimal
+    val amount: BigDecimal,
 )
 
-data class CreateTransactionStubRequest(
-    val amount: BigDecimal,
-    val note: String?,
+
+data class TransactionPrefill(
+    val transactionDate: LocalDate?,
+    val postedDate: LocalDate?,
+    val amount: BigDecimal?,
+    val categoryId: String?,
+    val merchantId: String?,
+    val bankDescription: String?,
+    val parsedBankDescription: ParsedBankDescription?,
+    val bankCategory: String?,
+    val invoiceIds: List<String> = emptyList(),
+    val note: String? = null,
+    val tags: List<String> = emptyList()
 )
 
 data class TransactionMutableProperties(
-    val transactionDate: Date,
-    val postedDate: Date?,
+    val transactionDate: LocalDate,
+    val postedDate: LocalDate?,
     val amount: BigDecimal,
     val categoryId: String,
     val merchantId: String,
@@ -53,6 +63,19 @@ data class TransactionMutableProperties(
 )
 
 // Supporting Functions
+
+fun toEntity(request: TransactionMutableProperties): TransactionEntity {
+    return TransactionEntity(
+        transactionDate = request.transactionDate,
+        postedDate = request.postedDate,
+        amount = request.amount,
+        categoryId = request.categoryId,
+        merchantId = request.merchantId,
+        bankDescription = request.merchantDescription,
+        bankCategory = null,
+        note = null,
+    )
+}
 
 fun fromEntity(transaction: TransactionEntity): Transaction {
     return Transaction(

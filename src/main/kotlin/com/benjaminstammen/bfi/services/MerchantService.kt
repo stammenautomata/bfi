@@ -28,6 +28,10 @@ class MerchantService(val merchantRepository: MerchantRepository) {
         return fromEntity(merchantRepository.findById(merchantId).orElseThrow { MerchantNotFoundException(merchantId) })
     }
 
+    fun listMerchantsByDescription(description: String): List<Merchant> {
+        return merchantRepository.findByKnownDescriptionsContaining(description).map { x -> fromEntity(x) }
+    }
+
     fun listMerchants(): List<Merchant> {
         return merchantRepository.findAll().map { x -> fromEntity(x) }
     }

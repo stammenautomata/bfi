@@ -13,7 +13,7 @@ class ApplicationConfig(val applicationProperties: ApplicationProperties) : WebM
         registry.addMapping("/**")
             .allowedOrigins(applicationProperties.clientOriginUrl)
             .allowedHeaders(HttpHeaders.AUTHORIZATION, HttpHeaders.CONTENT_TYPE)
-            .allowedMethods(HttpMethod.GET.name)
+            .allowedMethods(*HttpMethod.values().map { it.name }.toTypedArray())
             .maxAge(86400);
     }
 }

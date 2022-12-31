@@ -1,20 +1,26 @@
 package com.benjaminstammen.bfi.util.csv
 
-import com.benjaminstammen.bfi.model.TransactionPartial
+import com.benjaminstammen.bfi.model.TransactionImportPartial
 import com.opencsv.CSVReader
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+import org.springframework.stereotype.Component
 import java.io.InputStream
 import java.io.InputStreamReader
 import java.lang.RuntimeException
 
+@Component
 class CsvParser(
-    val transactionDateParser: TransactionDateParser,
-    val postDateParser: PostDateParser,
-    val bankCategoryParser: BankCategoryParser,
-    val bankDescriptionParser: BankDescriptionParser,
-    val bankMemoParser: BankMemoParser,
-    val amountParser: AmountParser
+    val transactionDateParser: TransactionDateResolver,
+    val postDateResolver: PostDateResolver,
+    val bankCategoryResolver: BankCategoryResolver,
+    val bankDescriptionResolver: BankDescriptionResolver,
+    val bankMemoResolver: BankMemoResolver,
+    val amountResolver: AmountResolver
 ) {
-    fun deriveTransaction(csvInputStream: InputStream): List<TransactionPartial> {
+    val logger: Logger = LoggerFactory.getLogger(this.javaClass)
+
+    fun deriveTransactionPartials(csvInputStream: InputStream): List<TransactionImportPartial> {
         val isr = InputStreamReader(csvInputStream)
         val csvr = CSVReader(isr)
 
@@ -22,18 +28,24 @@ class CsvParser(
         val stdColMap = deriveStandardHeaders(header)
 
         var row: Array<String>? = csvr.readNext()
-        val transactionList = ArrayList<TransactionPartial>()
+        val transactionList = ArrayList<TransactionImportPartial>()
         while (row != null) {
-            transactionList.add(
-                TransactionPartial(
-                    transactionDate = transactionDateParser.parseField(stdColMap, row),
-                    postedDate = postDateParser.parseField(stdColMap, row),
-                    bankCategory = bankCategoryParser.parseField(stdColMap, row),
-                    bankDescription = bankDescriptionParser.parseField(stdColMap, row),
-                    bankMemo = bankMemoParser.parseField(stdColMap, row),
-                    amount = amountParser.parseField(stdColMap, row)
+            logger.info(row.joinToString(prefix = "[", postfix = "]", separator = ",\n"))
+
+            if (row.any { it.isNotEmpty() }) {
+                transactionList.add(
+                    TransactionImportPartial(
+                        transactionDate = transactionDateParser.resolveField(stdColMap, row),
+                        postedDate = postDateResolver.resolveField(stdColMap, row),
+                        bankCategory = bankCategoryResolver.resolveField(stdColMap, row),
+                        bankDescription = bankDescriptionResolver.resolveField(stdColMap, row),
+                        bankMemo = bankMemoResolver.resolveField(stdColMap, row),
+                        amount = amountResolver.resolveField(stdColMap, row)
+                    )
                 )
-            )
+            } else {
+                logger.info("Skipping empty row.")
+            }
 
             row = csvr.readNext()
         }
